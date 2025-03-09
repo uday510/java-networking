@@ -11,28 +11,29 @@ public class Client {
 
     public static void main(String[] args) {
 
-         try (Socket socket = new Socket("localhost", 4000)) {
+        try (Socket socket = new Socket("localhost", 4000);
              BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+             Scanner scanner = new Scanner(System.in)) {
 
-             Scanner scanner = new Scanner(System.in);
-             String requestString;
-             String responseString;
-             do {
-                 System.out.println("Enter string to be echoed (sent to server): ");
-                 requestString = scanner.nextLine();
+            String requestString;
+            String responseString;
 
-                 output.println(requestString);
-                 if (!requestString.equals("exit")) {
-                     responseString = input.readLine();
-                     System.out.println("Server response: " + responseString);
-                 }
-             } while (!requestString.equals("exit"));
-         } catch (IOException exception) {
-             System.out.println("Client Error: " + exception.getMessage());
-         } finally {
-             System.out.println("Client Disconnected");
-         }
+            do {
+                System.out.println("Enter string to be echoed (sent to server): ");
+                requestString = scanner.nextLine();
+
+                output.println(requestString);
+                if (!requestString.equals("exit")) {
+                    responseString = input.readLine();
+                    System.out.println("Server response: " + responseString);
+                }
+            } while (!requestString.equals("exit"));
+
+            System.out.println("Client Disconnected");
+
+        } catch (IOException exception) {
+            System.out.println("Client Error: " + exception.getMessage());
+        }
     }
-
 }

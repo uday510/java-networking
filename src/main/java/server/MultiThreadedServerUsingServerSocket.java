@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MultiThreadedServer {
+public class MultiThreadedServerUsingServerSocket {
 
     public static void main(String[] args) {
 
@@ -20,7 +20,7 @@ public class MultiThreadedServer {
                 Socket socket = serverSocket.accept();
                 System.out.println("Server accepts client connection");
                 System.out.println("Client connected from IP: " + socket.getInetAddress() + ", Port: " + socket.getPort());
-                socket.setSoTimeout(900_0000);
+                socket.setSoTimeout(900_000);
                 executorService.submit(() -> handleClientRequest(socket));
             }
         } catch (IOException ioException) {
