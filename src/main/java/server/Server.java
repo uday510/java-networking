@@ -1,28 +1,33 @@
 package server;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server {
+
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(4000)) {
-
             try (Socket socket = serverSocket.accept()) {
-                System.out.println("Client connected from IP: " + socket.getInetAddress() + ", Port: " + socket.getPort());
+                System.out.println("Server accepts client connection");
                 BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
 
                 while (true) {
                     String echoString = input.readLine();
-                    System.out.println("Client request: " + echoString);
-                    if (echoString == null || echoString.equals("exit")) {
+                    System.out.println("Server got request data: " + echoString);
+                    if (echoString.equals("exit")) {
                         break;
                     }
-                    output.println("Server echo: " + echoString);
+                    output.println("Echo from server: " + echoString);
                 }
             }
         } catch (IOException ioException) {
             System.out.println("Server exception: " + ioException.getMessage());
         }
     }
+
 }
